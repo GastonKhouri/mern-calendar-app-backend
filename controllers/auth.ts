@@ -40,6 +40,7 @@ export const login = async(req: Request, res: Response) => {
         const token = await generarJWT(usuario.id);
 
         return res.json({
+            ok: true,
             usuario,
             token
         });
@@ -62,6 +63,7 @@ export const revalidarToken = async(req: Request, res: Response) => {
     const token = await generarJWT(usuario!.id);
 
     return res.json({
+        ok: true,
         usuario,
         token
     });

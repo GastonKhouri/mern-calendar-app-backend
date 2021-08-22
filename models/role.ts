@@ -4,7 +4,7 @@ import { RoleModel } from '../interfaces/interfaces';
 const RoleSchema = new Schema<RoleModel>({
     role: {
         type: String,
-        require: [true, 'El rol es obligatorio']
+        required: [true, 'El rol es obligatorio']
     }
 });
 

@@ -14,6 +14,7 @@ export const getUsuarios = async(req: Request, res: Response) => {
     ]);
 
     return res.json({
+        ok: true,
         total,
         usuarios
     });
@@ -52,7 +53,10 @@ export const postUsuario = async(req: Request, res: Response) => {
     // Guardar en DB
     await usuario.save();
 
-    return res.json(usuario);
+    return res.json({
+        ok: true,
+        usuario
+    });
 
 }
 
@@ -69,7 +73,10 @@ export const putUsuario = async(req: Request, res: Response) => {
 
     const usuario = await Usuario.findByIdAndUpdate(id, resto, { new: true });
 
-    return res.json(usuario);
+    return res.json({
+        ok: true,
+        usuario
+    });
 
 }
 
@@ -80,6 +87,9 @@ export const deleteUsuario = async(req: Request, res: Response) => {
     // Borramos logicamente al usuario
     const usuario = await Usuario.findByIdAndUpdate(id, { estado: false }, { new: true });
 
-    return res.json(usuario);
+    return res.json({
+        ok: true,
+        usuario
+    });
 
 }

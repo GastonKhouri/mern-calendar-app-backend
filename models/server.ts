@@ -1,17 +1,21 @@
 import express, { Application } from 'express';
 import cors from 'cors';
 
+import { dbConnection } from '../database/config';
+
 import userRoutes from '../routes/usuarios';
 import authRoutes from '../routes/auth';
-import { dbConnection } from '../database/config';
+import eventsRoutes from '../routes/events';
+
 
 class Server {
 
     private app: Application;
     private port: string;
     private paths = {
-        auth: '/api/auth',
-        usuarios: '/api/usuarios'
+        auth:     '/api/auth',
+        events:   '/api/events',
+        usuarios: '/api/usuarios',
     }
 
     constructor() {
@@ -49,8 +53,9 @@ class Server {
 
     routes() {
 
-        this.app.use(this.paths.usuarios, userRoutes);
         this.app.use(this.paths.auth, authRoutes);
+        this.app.use(this.paths.events, eventsRoutes);
+        this.app.use(this.paths.usuarios, userRoutes);
 
         // this.app.get('*', (req, res) => {
         //     res.sendFile(path.resolve(__dirname, '../public/index.html'));

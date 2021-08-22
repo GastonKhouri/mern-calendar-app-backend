@@ -1,3 +1,8 @@
+/**
+ * Rutas de Usuarios
+ * host + /api/usuarios
+ */
+
 import { Router } from "express";
 import { check } from "express-validator";
 

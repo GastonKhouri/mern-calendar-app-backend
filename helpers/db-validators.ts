@@ -1,5 +1,7 @@
 import Role from '../models/role';
 import Usuario from '../models/usuario';
+import Evento from '../models/events';
+import { Request } from 'express';
 
 // Verificar que el rol es válido
 export const esRoleValido = async(role = '') => {
@@ -32,6 +34,32 @@ export const existeUsuarioPorId = async(id = '') => {
 
     if (!existeUsuario) {
         throw new Error(`El id ${ id } no existe`);
+    }
+
+}
+
+// Verificar que exista un evento dado un ID en la DB
+export const existeEventoPorId = async(id = '') => {
+
+    // Verificar si el id existe en la DB
+    const existeEvento = await Evento.findById(id);
+
+    if (!existeEvento) {
+        throw new Error(`El id ${ id } no existe`);
+    }
+
+}
+
+// Verificar que exista un evento dado un ID en la DB
+export const mismoUsuario = async(id = '', req:any) => {
+
+    const uid = req.usuario.id;
+
+    // Verificar si el id existe en la DB
+    const evento = await Evento.findById(id);
+
+    if (evento?.user.toString() !== uid) {
+        throw new Error(`No tiene privilegios para modificar este evento`);
     }
 
 }

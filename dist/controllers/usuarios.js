@@ -26,6 +26,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteUsuario = exports.putUsuario = exports.postUsuario = exports.getUsuario = exports.getUsuarios = void 0;
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const usuario_1 = __importDefault(require("../models/usuario"));
+const generar_jwt_1 = require("../helpers/generar-jwt");
 // Controlador de la obtención de usuarios
 const getUsuarios = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const query = { estado: true };
@@ -60,11 +61,14 @@ const postUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     // Encriptar la contraseña
     const salt = bcryptjs_1.default.genSaltSync();
     usuario.password = bcryptjs_1.default.hashSync(password, salt);
+    // Generar JWT
+    const token = yield generar_jwt_1.generarJWT(usuario.id);
     // Guardar en DB
     yield usuario.save();
     return res.json({
         ok: true,
-        usuario
+        usuario,
+        token
     });
 });
 exports.postUsuario = postUsuario;

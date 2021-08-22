@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import bcryptjs from 'bcryptjs';
 
 import Usuario from '../models/usuario';
+import { generarJWT } from "../helpers/generar-jwt";
 
 // Controlador de la obtención de usuarios
 export const getUsuarios = async(req: Request, res: Response) => {
@@ -50,12 +51,16 @@ export const postUsuario = async(req: Request, res: Response) => {
     const salt = bcryptjs.genSaltSync();
     usuario.password = bcryptjs.hashSync(password, salt);
 
+    // Generar JWT
+    const token = await generarJWT(usuario.id);
+
     // Guardar en DB
     await usuario.save();
 
     return res.json({
         ok: true,
-        usuario
+        usuario,
+        token
     });
 
 }

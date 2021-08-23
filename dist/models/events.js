@@ -35,7 +35,8 @@ const EventoSchema = new mongoose_1.Schema({
     }
 });
 EventoSchema.methods.toJSON = function () {
-    const _a = this.toObject(), { __v } = _a, data = __rest(_a, ["__v"]);
+    const _a = this.toObject(), { __v, _id } = _a, data = __rest(_a, ["__v", "_id"]);
+    data.id = _id;
     return data;
 };
 const Evento = mongoose_1.model('Evento', EventoSchema);

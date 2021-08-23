@@ -1,4 +1,5 @@
 import express, { Application } from 'express';
+import path from 'path';
 import cors from 'cors';
 
 import { dbConnection } from '../database/config';
@@ -57,9 +58,9 @@ class Server {
         this.app.use(this.paths.events, eventsRoutes);
         this.app.use(this.paths.usuarios, userRoutes);
 
-        // this.app.get('*', (req, res) => {
-        //     res.sendFile(path.resolve(__dirname, '../public/index.html'));
-        // });
+        this.app.get('*', (req, res) => {
+            res.sendFile(path.resolve(__dirname, '../public/index.html'));
+        });
 
     }
 

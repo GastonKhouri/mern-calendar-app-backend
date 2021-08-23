@@ -9,6 +9,7 @@ const express_validator_1 = require("express-validator");
 const validar_jwt_1 = require("../middlewares/validar-jwt");
 const validar_campos_1 = require("../middlewares/validar-campos");
 const db_validators_1 = require("../helpers/db-validators");
+const term_validators_1 = require("../helpers/term-validators");
 const events_1 = require("../controllers/events");
 const router = express_1.Router();
 // Todas las rutas deben pasar por validarJWt
@@ -18,8 +19,8 @@ router.get('/', [], events_1.getEventos);
 // Crear evento
 router.post('/', [
     express_validator_1.check('title', 'El titulo es obligatorio').notEmpty(),
-    express_validator_1.check('start', 'La fecha de inicio es obligatoria').isDate(),
-    express_validator_1.check('end', 'La fecha de fin es obligatoria').isDate(),
+    express_validator_1.check('start', 'La fecha de inicio es obligatoria').custom(term_validators_1.isDate),
+    express_validator_1.check('end', 'La fecha de fin es obligatoria').custom(term_validators_1.isDate),
     validar_campos_1.validarCampos
 ], events_1.crearEvento);
 // Actualizar evento
@@ -28,8 +29,8 @@ router.put('/:id', [
     express_validator_1.check('id').custom(db_validators_1.existeEventoPorId),
     express_validator_1.check('id').custom((id, { req }) => db_validators_1.mismoUsuario(id, req)),
     express_validator_1.check('title', 'El titulo es obligatorio').notEmpty(),
-    express_validator_1.check('start', 'La fecha de inicio es obligatoria').isDate(),
-    express_validator_1.check('end', 'La fecha de fin es obligatoria').isDate(),
+    express_validator_1.check('start', 'La fecha de inicio es obligatoria').custom(term_validators_1.isDate),
+    express_validator_1.check('end', 'La fecha de fin es obligatoria').custom(term_validators_1.isDate),
     validar_campos_1.validarCampos
 ], events_1.actualizarEvento);
 // Eliminar evento

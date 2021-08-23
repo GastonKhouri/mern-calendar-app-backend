@@ -9,6 +9,7 @@ import { check } from 'express-validator';
 import { validarJWT } from '../middlewares/validar-jwt';
 import { validarCampos } from '../middlewares/validar-campos';
 import { existeEventoPorId, mismoUsuario } from '../helpers/db-validators';
+import { isDate } from '../helpers/term-validators';
 
 import { getEventos, 
          crearEvento, 
@@ -27,8 +28,8 @@ router.get('/', [
 // Crear evento
 router.post('/', [
     check('title', 'El titulo es obligatorio').notEmpty(),
-    check('start', 'La fecha de inicio es obligatoria').isDate(),
-    check('end', 'La fecha de fin es obligatoria').isDate(),
+    check('start', 'La fecha de inicio es obligatoria').custom(isDate),
+    check('end', 'La fecha de fin es obligatoria').custom(isDate),
     validarCampos
 ], crearEvento);
 
@@ -38,8 +39,8 @@ router.put('/:id', [
     check('id').custom(existeEventoPorId),
     check('id').custom((id, { req }) => mismoUsuario(id, req)),
     check('title', 'El titulo es obligatorio').notEmpty(),
-    check('start', 'La fecha de inicio es obligatoria').isDate(),
-    check('end', 'La fecha de fin es obligatoria').isDate(),
+    check('start', 'La fecha de inicio es obligatoria').custom(isDate),
+    check('end', 'La fecha de fin es obligatoria').custom(isDate),
     validarCampos
 ], actualizarEvento);
 
